@@ -10,6 +10,8 @@
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0d0f14; color: #e6e6e6; min-height: 100vh; }
     .screen { display: none; min-height: 100vh; }
     .screen.active { display: block; }
+    
+    /* ЛОГИН */
     #loginScreen { display: none; align-items: center; justify-content: center; padding: 20px; }
     #loginScreen.active { display: flex; }
     .login-card { background: linear-gradient(160deg, #1a1e28, #13161d); border: 1px solid #2a2f3a; border-radius: 20px; padding: 40px 32px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
@@ -21,6 +23,8 @@
     .file-label { display: block; font-size: 13px; color: #8a93a6; margin-bottom: 20px; cursor: pointer; }
     .file-label:hover { color: #4f8cff; }
     #enterBtn { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(90deg, #4f8cff, #7a5cff); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+    
+    /* МЕНЮ */
     .menu-header { padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid #1e232e; }
     .menu-header h2 { font-size: 20px; font-weight: 600; color: #aab3c5; }
     .user-info { display: flex; align-items: center; gap: 10px; font-weight: 600; }
@@ -33,34 +37,47 @@
     .movie-info { padding: 12px 14px; }
     .movie-info h3 { font-size: 15px; margin-bottom: 4px; }
     .movie-info span { font-size: 12px; color: #7b8497; }
-    .player-layout { display: grid; grid-template-columns: 1fr 340px; height: 100vh; }
-    .video-wrap { display: flex; flex-direction: column; background: #000; position: relative; }
-        #video { flex: 1; width: 100%; background: #000; outline: none; object-fit: contain; max-height: 100%; }
-    .video-controls-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #10131a; border-top: 1px solid #1c212c; }
+    
+    /* ПЛЕЕР */
+    .player-layout { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+    .video-section { flex: 1; display: flex; flex-direction: column; background: #000; min-width: 0; }
+    
+    /* Исправленный контейнер для видео */
+    .video-container { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; background: #000; overflow: hidden; }
+    #video { width: 100%; height: 100%; object-fit: contain; outline: none; }
+    
+    .video-controls-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #10131a; border-top: 1px solid #1c212c; flex-shrink: 0; }
     .movie-title-label { flex: 1; font-size: 14px; color: #aab3c5; }
     .mini-btn { padding: 7px 14px; font-size: 13px; border-radius: 8px; border: 1px solid #2c3240; background: #1a1f2a; color: #cdd4e0; cursor: pointer; text-decoration: none; }
     .download-btn { color: #7bd88f; }
-    .chat-panel { display: flex; flex-direction: column; background: #10131a; border-left: 1px solid #1c212c; height: 100vh; }
+    
+    /* ЧАТ */
+    .chat-panel { width: 340px; display: flex; flex-direction: column; background: #10131a; border-left: 1px solid #1c212c; flex-shrink: 0; }
     .chat-header { padding: 14px 16px; font-weight: 600; border-bottom: 1px solid #1c212c; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+    .chat-header-left { display: flex; align-items: center; gap: 10px; }
+    .clear-btn { background: transparent; border: 1px solid #333a49; color: #8a93a6; font-size: 11px; padding: 4px 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+    .clear-btn:hover { color: #ff6b6b; border-color: #ff6b6b; }
     .online { font-size: 12px; color: #7bd88f; }
+    
     .chat-messages { flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
     .chat-msg { display: flex; gap: 8px; font-size: 14px; align-items: flex-start; }
     .chat-msg img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
     .chat-msg .msg-name { font-weight: 600; color: #4f8cff; font-size: 12.5px; }
     .chat-msg .msg-text { color: #cdd4e0; word-break: break-word; line-height: 1.4; }
-    .chat-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #1c212c; }
+    .chat-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #1c212c; flex-shrink: 0; }
     .chat-form input { flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #2c3240; background: #151922; color: #fff; font-size: 14px; outline: none; }
     .chat-form button { padding: 0 16px; border: none; border-radius: 8px; background: #4f8cff; color: #fff; cursor: pointer; }
     
-    /* Стили для ошибки */
-    .video-error { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.8); color: #ff6b6b; text-align: center; padding: 20px; z-index: 10; }
-    .video-error.active { display: flex; }
-    
-    @media (max-width: 820px) { .player-layout { grid-template-columns: 1fr; grid-template-rows: auto 45vh; height: auto; } .chat-panel { height: 45vh; } #video { max-height: 55vh; } }
+    @media (max-width: 820px) {
+      .player-layout { flex-direction: column; }
+      .chat-panel { width: 100%; height: 45vh; border-left: none; border-top: 1px solid #1c212c; }
+      .video-section { height: 55vh; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- ЭКРАН ВХОДА -->
   <section id="loginScreen" class="screen active">
     <div class="login-card">
       <h1>🎬 Кинотеатр</h1>
@@ -75,6 +92,7 @@
     </div>
   </section>
 
+  <!-- МЕНЮ -->
   <section id="menuScreen" class="screen">
     <header class="menu-header">
       <div class="user-info">
@@ -86,20 +104,27 @@
     <div class="movie-grid" id="movieGrid"></div>
   </section>
 
+  <!-- ПЛЕЕР -->
   <section id="playerScreen" class="screen">
     <div class="player-layout">
-      <div class="video-wrap">
-        <video id="video" controls playsinline></video>
-        <div class="video-error" id="videoError">Ошибка загрузки видео. Возможно, ссылка битая или сервер недоступен.</div>
+      
+      <div class="video-section">
+        <div class="video-container">
+          <video id="video" controls playsinline></video>
+        </div>
         <div class="video-controls-bar">
           <button id="backBtn" class="mini-btn">← Назад</button>
           <span id="movieTitle" class="movie-title-label"></span>
           <a id="downloadBtn" class="mini-btn download-btn" download>⬇ Скачать</a>
         </div>
       </div>
+
       <aside class="chat-panel">
         <div class="chat-header">
-          💬 Чат
+          <div class="chat-header-left">
+            💬 Чат
+            <button id="clearChatBtn" class="clear-btn" title="Очистить чат">Очистить</button>
+          </div>
           <span id="onlineCount" class="online"></span>
         </div>
         <div class="chat-messages" id="chatMessages"></div>
@@ -108,6 +133,7 @@
           <button type="submit">➤</button>
         </form>
       </aside>
+
     </div>
   </section>
 
@@ -125,7 +151,7 @@
       appId: "1:761664727186:web:696691ac4706d8c1389e4b"
     };
 
-        const MOVIES = [
+    const MOVIES = [
       { 
         id: "video_1", 
         title: "Ролик 1", 
@@ -139,13 +165,6 @@
         year: 2024, 
         src: "https://archive.org/download/21312531335811/21312531335811.mp4", 
         poster: "" 
-      },
-      { 
-        id: "video_3", 
-        title: "Ролик 3", 
-        year: 2024, 
-        src: "https://archive.org/download/21312531335811/21312531335811.mp4", 
-        poster: "" 
       }
     ];
 
@@ -155,6 +174,7 @@
     let roomRef = null;
     let suppressSync = false;
 
+    // DOM Элементы
     const loginScreen = document.getElementById("loginScreen");
     const menuScreen = document.getElementById("menuScreen");
     const playerScreen = document.getElementById("playerScreen");
@@ -171,18 +191,16 @@
     const movieTitleLabel = document.getElementById("movieTitle");
     const downloadBtn = document.getElementById("downloadBtn");
     const backBtn = document.getElementById("backBtn");
-    const videoError = document.getElementById("videoError");
-
-    // Проверка на ошибку видео
-    video.addEventListener("error", () => {
-      videoError.classList.add("active");
-    });
-    video.addEventListener("playing", () => {
-      videoError.classList.remove("active");
-    });
+    const clearChatBtn = document.getElementById("clearChatBtn");
 
     let pendingAvatarDataUrl = "";
 
+    // === ЗВУК УВЕДОМЛЕНИЯ ===
+    const notificationSound = new Audio("data:audio/mp3;base64,//uQRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA//////////////////////////////////////////////////////////////////8AAAA8TEFNRTMuOTlyBLkAAAAAAAAAABSAJAiqQgAAgAAAKQAAAnG0J6D6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQRAAAAAAA8IAAAP/AAAG0AAABtAAABtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQRAAAAAAA8IAAAP/AAAG0AAABtAAABtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    
+    notificationSound.volume = 0.5;
+
+    // === АВАТАРКА ===
     avatarInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -204,6 +222,7 @@
       reader.readAsDataURL(file);
     });
 
+    // === ВХОД ===
     enterBtn.addEventListener("click", () => {
       const name = nameInput.value.trim();
       if (!name) { nameInput.focus(); return; }
@@ -238,6 +257,7 @@
       if (name === "player") playerScreen.classList.add("active");
     }
 
+    // === МЕНЮ ===
     function renderMovies() {
       movieGrid.innerHTML = "";
       MOVIES.forEach(m => {
@@ -254,29 +274,25 @@
 
     backBtn.addEventListener("click", () => { leaveRoom(); showScreen("menu"); });
 
+    // === ПЛЕЕР ===
     function openPlayer(movie) {
-      videoError.classList.remove("active");
       movieTitleLabel.textContent = movie.title;
       downloadBtn.href = movie.src;
       downloadBtn.setAttribute("download", movie.title);
-      
       video.src = movie.src;
       video.load();
-      
       chatMessages.innerHTML = "";
       onlineCountEl.textContent = "";
       showScreen("player");
       joinRoom(movie.id);
-
-      // Принудительный запуск с кнопки, если автоплей заблокирован
-      video.play().catch(() => {
-        // Если браузер заблокировал, ничего страшного, пользователь нажмет Play сам
-      });
+      video.play().catch(()=>{});
     }
 
     function joinRoom(movieId) {
       leaveRoom();
       roomRef = db.ref("rooms/" + movieId);
+      
+      // Синхронизация
       const stateRef = roomRef.child("state");
       stateRef.on("value", (snap) => {
         const state = snap.val();
@@ -295,8 +311,25 @@
       video.addEventListener("seeked", pushState);
       const ping = setInterval(() => { if (!video.paused) pushState(); }, 4000);
 
+      // Чат
       const chatRef = roomRef.child("chat");
-      chatRef.limitToLast(50).on("child_added", (snap) => addChatMessage(snap.val()));
+      chatRef.limitToLast(50).on("child_added", (snap) => {
+        const msg = snap.val();
+        addChatMessage(msg);
+        
+        // Воспроизводим звук, если сообщение не от нас
+        if (msg.name !== user.name) {
+          notificationSound.play().catch(() => {});
+        }
+      });
+
+      // Очистка чата
+      clearChatBtn.onclick = () => {
+        if (confirm("Вы уверены, что хотите очистить чат для всех?")) {
+          chatRef.remove();
+          chatMessages.innerHTML = "";
+        }
+      };
       
       chatForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -306,6 +339,7 @@
         chatRef.push({ name: user.name, avatar: user.avatar, text: text });
       });
 
+      // Онлайн
       const presence = roomRef.child("online").push();
       presence.set({ name: user.name });
       presence.onDisconnect().remove();
