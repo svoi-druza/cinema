@@ -34,7 +34,7 @@
     .movie-info h3 { font-size: 15px; margin-bottom: 4px; }
     .movie-info span { font-size: 12px; color: #7b8497; }
     .player-layout { display: grid; grid-template-columns: 1fr 340px; height: 100vh; }
-    .video-wrap { display: flex; flex-direction: column; background: #000; }
+    .video-wrap { display: flex; flex-direction: column; background: #000; position: relative; }
     #video { flex: 1; width: 100%; background: #000; outline: none; }
     .video-controls-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #10131a; border-top: 1px solid #1c212c; }
     .movie-title-label { flex: 1; font-size: 14px; color: #aab3c5; }
@@ -51,6 +51,11 @@
     .chat-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #1c212c; }
     .chat-form input { flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #2c3240; background: #151922; color: #fff; font-size: 14px; outline: none; }
     .chat-form button { padding: 0 16px; border: none; border-radius: 8px; background: #4f8cff; color: #fff; cursor: pointer; }
+    
+    /* Стили для ошибки */
+    .video-error { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.8); color: #ff6b6b; text-align: center; padding: 20px; z-index: 10; }
+    .video-error.active { display: flex; }
+    
     @media (max-width: 820px) { .player-layout { grid-template-columns: 1fr; grid-template-rows: auto 45vh; height: auto; } .chat-panel { height: 45vh; } #video { max-height: 55vh; } }
   </style>
 </head>
@@ -85,6 +90,7 @@
     <div class="player-layout">
       <div class="video-wrap">
         <video id="video" controls playsinline></video>
+        <div class="video-error" id="videoError">Ошибка загрузки видео. Возможно, ссылка битая или сервер недоступен.</div>
         <div class="video-controls-bar">
           <button id="backBtn" class="mini-btn">← Назад</button>
           <span id="movieTitle" class="movie-title-label"></span>
@@ -118,7 +124,7 @@
       messagingSenderId: "761664727186",
       appId: "1:761664727186:web:696691ac4706d8c1389e4b"
     };
-    
+
     const MOVIES = [
       { 
         id: "test_1", 
@@ -158,6 +164,15 @@
     const movieTitleLabel = document.getElementById("movieTitle");
     const downloadBtn = document.getElementById("downloadBtn");
     const backBtn = document.getElementById("backBtn");
+    const videoError = document.getElementById("videoError");
+
+    // Проверка на ошибку видео
+    video.addEventListener("error", () => {
+      videoError.classList.add("active");
+    });
+    video.addEventListener("playing", () => {
+      videoError.classList.remove("active");
+    });
 
     let pendingAvatarDataUrl = "";
 
@@ -233,15 +248,23 @@
     backBtn.addEventListener("click", () => { leaveRoom(); showScreen("menu"); });
 
     function openPlayer(movie) {
+      videoError.classList.remove("active");
       movieTitleLabel.textContent = movie.title;
       downloadBtn.href = movie.src;
       downloadBtn.setAttribute("download", movie.title);
+      
       video.src = movie.src;
       video.load();
+      
       chatMessages.innerHTML = "";
       onlineCountEl.textContent = "";
       showScreen("player");
       joinRoom(movie.id);
+
+      // Принудительный запуск с кнопки, если автоплей заблокирован
+      video.play().catch(() => {
+        // Если браузер заблокировал, ничего страшного, пользователь нажмет Play сам
+      });
     }
 
     function joinRoom(movieId) {
@@ -286,8 +309,6 @@
       roomRef._cleanup = () => {
         stateRef.off(); chatRef.off(); presence.remove(); clearInterval(ping);
       };
-
-      video.play().catch(()=>{});
     }
 
     function leaveRoom() {
